@@ -1,7 +1,7 @@
 <template>
   <div v-if="!loading" class="flex items-center justify-center min-h-screen bg-gray-100">
     <div class="w-full max-w-md">
-      <form class="bg-white rounded-lg shadow-lg p-8" @submit="handleSubmit">
+      <form class="bg-white rounded-lg shadow-lg p-8" @submit.prevent="handleSubmit">
         <h2 class="text-2xl font-semibold mb-6">Tasdiqlash</h2>
         
         <div class="mb-4">
@@ -18,23 +18,44 @@
 </template>
 
 <script setup>
-import axios from "axios";
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 
-let loading = ref(true)
-let vcode = ref("");
+const loading = ref(true);
+const vcode = ref('');
 
-onMounted(async() =>{
-  let token = localStorage.getItem("sms_verfication");
-  if(token){
-    window.location.href = "/"; 
-  }else{
-    const res = await axios.post("http://80.78.254.116:3021/api/sms-verification", null, {
+const handleSubmit = async () => {
+  try {
+    const response = await axios.post("http://80.78.254.116:3021/api/sms-verification", null, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
       }
-    })
-    loading.value = false
+    });
+    console.log(response.data);
+    // Handle the response as needed
+  } catch (error) {
+    console.log(error);
+    // Handle the error as needed
   }
-})
+};
+
+onMounted(async () => {
+  const token = localStorage.getItem("sms_verification");
+  if (token) {
+    window.location.href = "/";
+  } else {
+    try {
+      await axios.post("http://80.78.254.116:3021/api/sms-verification", {"text": "Hello"}, {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    loading.value = false;
+  }
+});
 </script>
