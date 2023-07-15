@@ -18,35 +18,23 @@
 </template>
 
 <script setup>
+import axios from "axios";
+
 let loading = ref(true)
 let vcode = ref("");
 
-onMounted(() =>{
+onMounted(async() =>{
   let token = localStorage.getItem("sms_verfication");
   if(token){
-    window.location.href = "/";
+    window.location.href = "/"; 
   }else{
+    const res = await axios.post("http://80.78.254.116:3021/api/sms-verification", null, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      }
+    })
     loading.value = false
   }
 })
-
-
-const handleSubmit = async (e) => {
-  e.preventDefault()
-  loading.value = true
-  try {
-    const res = await axios.post("http://localhost:3021/api/login", {
-      login: username.value,
-      password: password.value,
-    })
-    if (res.data.token) {
-      localStorage.setItem("token", res.data.token)
-      localStorage.setItem("sms_verfication", "false")
-      window.location.href = "/";
-    }
-  } catch (err) {
-    console.log(err)
-  }
-  loading.value = false
-}
 </script>
