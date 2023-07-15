@@ -348,6 +348,27 @@ exports.sms_verfication = async (req, res) => {
     if (!currentUser || currentUser.user_level !== 1) {
       return res.status(400).json({ message: "Not allowed" });
     }
+    if (currentUser.verification_code) {
+      const sms = [
+        {
+          phone: currentUser.phone_number,
+          text: "Your verification code is " + currentUser.verification_code,
+        },
+      ];
+      const data = new URLSearchParams();
+      data.append("login", encodeURIComponent("samandar"));
+      data.append("password", encodeURIComponent("gJlv405114TAidbzf9uz"));
+      data.append("data", JSON.stringify(sms));
+
+      axios
+        .post("http://185.8.212.184/smsgateway/", data)
+        .then((response) => {
+          return res.json(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
     const code = Math.floor(10000 + Math.random() * 90000);
     currentUser.verification_code = code;
     await currentUser.save();
