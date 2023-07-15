@@ -24,38 +24,40 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
-let loading = ref(true)
-let username = ref("");
-let password = ref("");
+const loading = ref(true);
+const username = ref("");
+const password = ref("");
 
-
-onMounted(() =>{
-  let token = localStorage.getItem("token");
-  if(token){
+onMounted(() => {
+  const token = localStorage.getItem("token");
+  if (token) {
     window.location.href = "/";
-  }else{
-    loading.value = false
+  } else {
+    loading.value = false;
   }
-})
-
+});
 
 const handleSubmit = async (e) => {
-  e.preventDefault()
-  loading.value = true
+  e.preventDefault();
+  loading.value = true;
+  
   try {
-    const res = await axios.post("http://localhost:3021/api/login", {
+    const res = await axios.post("http://80.78.254.116:3021/api/login", {
       login: username.value,
       password: password.value,
-    })
+    });
+    
     if (res.data.token) {
-      localStorage.setItem("token", res.data.token)
+      localStorage.setItem("token", res.data.token);
       window.location.href = "/";
     }
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
-  loading.value = false
-}
+  
+  loading.value = false;
+};
 </script>
