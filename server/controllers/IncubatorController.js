@@ -35,9 +35,38 @@ exports.getEggs = async(req, res) => {
     if (!currentUser || currentUser.user_level !== 4) {
       return res.status(400).json({ message: "Not allowed" });
     }
-    const eggs = await Eggs.find().sort({ _id: -1 }).limit(20);
+    const eggs = await Eggs.find({status: "0"}).sort({ _id: -1 }).limit(20);
     return res.status(200).json(eggs);
   } catch (error) {
     console.log(error);
   }
 };
+exports.getEggsById = async(req, res) => {
+  console.log("getting eggs by id");
+  try {
+    const currentUser = await Users.findById(req.userId);
+    if (!currentUser || currentUser.user_level!== 4) {
+      return res.status(400).json({ message: "Not allowed" });
+    }
+    const eggs = await Eggs.findById(req.params.id);
+    return res.status(200).json(eggs);
+  } catch (error) {
+    console.log(error);
+  }
+}
+exports.editEggsById = async(req, res) => {
+  console.log("editing eggs by id");
+  try {
+    const currentUser = await Users.findById(req.userId);
+    if (!currentUser || currentUser.user_level!== 4) {
+      return res.status(400).json({ message: "Not allowed" });
+    }
+    const eggs = await Eggs.findById(req.params.id);
+    eggs.defective = req.body.defective;
+    eggs.unfertilized = req.body.unfertilized;
+    await eggs.save();
+    return res.status(200).json(eggs);
+  } catch (error) {
+    console.log(error);
+  }
+}

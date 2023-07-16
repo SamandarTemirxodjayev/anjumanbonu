@@ -2,16 +2,45 @@
 	<div v-if="!loading">
 		<Sidebar4>
 			<div class="max-w-md mx-auto mt-8">
+				<div class="bg-green-300 p-2 my-4" :class="{ 'block': success, 'hidden': !success }">
+          <div class="text-lg font-semibold">Muvaffaqiyatli yangilandi</div>
+        </div>
 				<form @submit="handleSubmit">
 					<div class="mb-4">
 						<label
 							for="name"
 							class="block mb-2 text-sm font-medium text-gray-700"
-							>Xodim Ismi</label
+							>Qabul qilingan Sanasi</label
 						>
 						<input
 							id="name"
-							v-model="name"
+							v-model="deliveryDate"
+							type="text"
+							disabled="disabled"
+							class="bg-gray-300 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
+					</div>
+					<div class="mb-4">
+						<label
+							for="name"
+							class="block mb-2 text-sm font-medium text-gray-700"
+							>Qabul qilingan Vaqti</label
+						>
+						<input
+							id="name"
+							v-model="deliveryTime"
+							type="text"
+							disabled="disabled"
+							class="bg-gray-300 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
+					</div>
+					<div class="mb-4">
+						<label
+							for="name"
+							class="block mb-2 text-sm font-medium text-gray-700"
+							>Zarar Yetkan Tuxumlar</label
+						>
+						<input
+							id="name"
+							v-model="defective"
 							type="text"
 							class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
 					</div>
@@ -19,25 +48,38 @@
 						<label
 							for="surname"
 							class="block mb-2 text-sm font-medium text-gray-700"
-							>Xodim Familiyasi</label
+							>Urug'lanmagan Tuxumlar</label
 						>
 						<input
 							id="surname"
-							v-model="surname"
+							v-model="unfertilized"
 							type="text"
 							class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
 					</div>
 					<div class="mb-4">
 						<label
-							for="phone_number"
+							for="surname"
 							class="block mb-2 text-sm font-medium text-gray-700"
-							>Xodim Telefon raqami</label
+							>Vaqt</label
 						>
 						<input
-							id="phone_number"
-							v-model="phone_number"
+							id="surname"
+							v-model="time"
 							type="text"
-							class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
+							class="bg-gray-300 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
+					</div>
+					<div class="mb-4">
+						<label
+							for="surname"
+							class="block mb-2 text-sm font-medium text-gray-700"
+							>Sana</label
+						>
+						<input
+							id="surname"
+							v-model="date"
+							type="text"
+							disabled="disabled"
+							class="bg-gray-300 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
 					</div>
 					<div>
 						<button
@@ -47,11 +89,6 @@
 						</button>
 					</div>
 				</form>
-				<button
-					@click="deleteUser"
-					class="w-full px-4 py-2 my-2 text-sm font-medium text-white bg-red-500 rounded-md hover:bg-red-600">
-					Xodimni ishdan bo'shatish
-				</button>
 			</div>
 		</Sidebar4>
 	</div>
@@ -59,22 +96,54 @@
 </template>
 
 <script setup>
-	let loading = ref(true);
+let loading = ref(true);
+let deliveryDate = ref("");
+let deliveryTime = ref("");
+let defective = ref();
+let unfertilized = ref();
+let date = ref("");
+let time = ref("");
+let success = ref(false);
 
-	const router = useRoute();
+const router = useRoute();
 
-	onMounted(async () => {
-		console.log();
-		try {
-			const res = await $host.post("/userInfo");
-			if (res.data.user.user_level !== 4) {
-				window.location.href = "/";
-				return;
-			}
-			const response = await $host.get("/admin/users/" + router.params.id);
-		} catch (error) {
-			console.log(error);
+onMounted(async () => {
+	console.log();
+	try {
+		const res = await $host.post("/userInfo");
+		if (res.data.user.user_level !== 4) {
+			window.location.href = "/";
+			return;
 		}
-		loading.value = false;
-	});
+		const resp = await $host.get("/incubator/eggs/" + router.params.id);
+		deliveryDate.value = resp.data.date;
+		deliveryTime.value = resp.data.time;
+		defective.value = resp.data.defective;
+		unfertilized.value = resp.data.unfertilized;
+	} catch (error) {
+		console.log(error);
+	}
+	loading.value = false;
+	updateTimeAndDate(); 
+  setInterval(updateTimeAndDate, 500); 
+});
+const updateTimeAndDate = () => {
+  const now = new Date();
+  time.value = now.toLocaleTimeString();
+  date.value = now.toLocaleDateString();
+};
+const handleSubmit = (e) => {
+	e.preventDefault();
+  const data = {
+    defective: defective.value,
+    unfertilized: unfertilized.value,
+  };
+  $host.put("/incubator/eggs/" + router.params.id, data)
+    .then((res) => {
+			success.value = true;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
 </script>

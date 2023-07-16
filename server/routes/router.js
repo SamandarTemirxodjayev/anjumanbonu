@@ -8,7 +8,7 @@ router.post("/register", UserMiddleware, AdminController.registerUser);
 router.post("/login", AdminController.loginUser);
 router.post("/userInfo",UserMiddleware, AdminController.userInfo);
 router.post("/sms",UserMiddleware, AdminController.sms);
-router.post("/sms-verification",UserMiddleware, AdminController.sms_verfication2);
+router.post("/sms-verification",UserMiddleware, AdminController.sms_verfication);
 router.post("/sms-check",UserMiddleware, AdminController.sms_check);
 
 module.exports = router;

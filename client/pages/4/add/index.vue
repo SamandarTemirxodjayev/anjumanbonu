@@ -23,7 +23,7 @@
               <td class="px-5 py-3 border border-black">{{ egg.quantity }}</td>
               <td class="px-5 py-3 border border-black">{{ egg.defective }} ( {{(100-(egg.quantity-egg.defective)*100/egg.quantity).toFixed(3)}}% )</td>
               <td class="px-5 py-3 border border-black">{{ egg.unfertilized }} ( {{(100-(egg.quantity-egg.unfertilized)*100/egg.quantity).toFixed(3)}}% )</td>
-              <td class="px-5 py-3 border border-black">{{ egg.quantity-egg.defective-egg.unfertilized }} ( {{(100-(egg.quantity-egg.defective-egg.unfertilized)*100/egg.quantity).toFixed(3)}}% )</td>
+              <td class="px-5 py-3 border border-black">{{ egg.quantity-egg.defective-egg.unfertilized }} ( {{((egg.quantity-egg.defective-egg.unfertilized)*100/egg.quantity).toFixed(3)}}% )</td>
               <td class="px-5 py-3 border border-black">{{ egg.time }}</td>
               <td class="px-5 py-3 border border-black">{{ egg.date }}</td>
               <td class="px-5 py-3 border border-black">{{ egg.status }}</td>
