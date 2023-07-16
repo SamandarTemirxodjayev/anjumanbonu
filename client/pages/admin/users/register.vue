@@ -23,8 +23,8 @@
           <input id="surname" v-model="surname" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
         </div>
         <div class="mb-4">
-          <label for="phone_number" class="block mb-2 text-sm font-medium text-gray-700">Xodim Telefon Raqami</label>
-          <input id="phone_number" v-model="phone_number" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
+          <label for="phone_number" class="block mb-2 text-sm font-medium text-gray-700">Xodim Telefon Raqami ( + belgisiz )</label>
+          <input id="phone_number" v-model="phone_number" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="998339999779" />
         </div>
         <div class="mb-4">
           <label for="options" class="block mb-2 text-sm font-medium text-gray-700">Xodim Lavozimi</label>

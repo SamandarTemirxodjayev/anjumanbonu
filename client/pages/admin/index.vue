@@ -1,7 +1,7 @@
 <template>
   <div v-if="!loading">
     <AdminSidebar>
-      <div class="flex items-center">
+      <div class="grid grid-cols-6 items-center">
         <LazyNuxtLink to="/admin/users" class="mr-2">
           <div
             class="square text-white border rounded-lg dark:bg-[#555]">
@@ -86,8 +86,9 @@
   }
 
   onMounted(async () => {
+    console.log('mounted');
     try {
-      await sleep(1000);
+      await sleep(500);
       const res = await $host.post("/userInfo");
       if (res.data.user.user_level !== 1) {
         window.location.href = "/";

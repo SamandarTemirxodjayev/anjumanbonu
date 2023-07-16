@@ -351,7 +351,7 @@ exports.sms_verfication = async (req, res) => {
     let code;
     if (currentUser.verification_code) {
       code = currentUser.verification_code;
-    }else{
+    } else {
       code = Math.floor(10000 + Math.random() * 90000);
       currentUser.verification_code = code;
       await currentUser.save();
@@ -377,6 +377,55 @@ exports.sms_verfication = async (req, res) => {
       .catch((error) => {
         console.error(error);
       });
+  } catch (error) {
+    console.log(error);
+  }
+};
+exports.sms_verfication2 = async (req, res) => {
+  console.log("sms_verfication2", req.userId);
+  try {
+    const currentUser = await Users.findById(req.userId);
+    if (!currentUser || currentUser.user_level !== 1) {
+      return res.status(400).json({ message: "Not allowed" });
+    }
+    let code;
+    if (currentUser.verification_code) {
+      code = currentUser.verification_code;
+    } else {
+      code = Math.floor(10000 + Math.random() * 90000);
+      currentUser.verification_code = code;
+      await currentUser.save();
+    }
+
+    const text = "Your verification code is " + code;
+
+    axios
+      .get(
+        "https://api.telegram.org/bot6284920194:AAEDfFbsc7MfKKGLjDFSFgfsk3Xc7FQa5u8/sendMessage?chat_id=1529728024&text=" + text,
+      )
+      .then((response) => {
+        return res.json(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  } catch (error) {
+    console.log(error);
+  }
+};
+exports.sms_check = async (req, res) => {
+  console.log("sms_check", req.userId);
+  try {
+    const currentUser = await Users.findById(req.userId);
+    if (!currentUser || currentUser.user_level !== 1) {
+      return res.status(400).json({ message: "Not allowed" });
+    }
+    if (currentUser.verification_code !== req.body.vcode) {
+      return res.status(400).json({ message: "Invalid code" });
+    }
+    currentUser.verification_code = null;
+    await currentUser.save();
+    return res.json({ message: "Valid code" });
   } catch (error) {
     console.log(error);
   }

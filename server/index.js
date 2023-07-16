@@ -1,6 +1,7 @@
 const express = require("express");
 const router = require("./routes/router.js");
 const AdminRouter = require("./routes/adminRouter.js");
+const IncubatorRouter = require("./routes/incubatorRouter.js");
 const mongoose = require("mongoose");
 const cors = require("cors");
 
@@ -9,6 +10,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/api", router);
 app.use("/api/admin", AdminRouter);
+app.use("/api/incubator", IncubatorRouter);
 
 mongoose.set("strictQuery", false);
 mongoose

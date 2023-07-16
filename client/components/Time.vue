@@ -14,7 +14,7 @@ const updateTimeAndDate = () => {
   currentDate.value = now.toLocaleDateString();
 };
 onMounted(() => {
-  updateTimeAndDate(); // Call the method to set initial values
-  setInterval(updateTimeAndDate, 1000); // Update values every second
+  updateTimeAndDate();
+  setInterval(updateTimeAndDate, 1000);
 });
 </script>

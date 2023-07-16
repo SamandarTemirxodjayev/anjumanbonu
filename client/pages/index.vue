@@ -19,18 +19,22 @@ onMounted(async () => {
     window.location.href = '/login';
   } else {
     try {
-      await sleep(1000);
+      await sleep(500);
       const response = await $host.post('/userInfo');
       data.value = response.data;
       if (response.data.user.user_level === 1) {
-        let sms = localStorage.getItem('sms_verfication');
+        let sms = localStorage.getItem('sms_verification');
         if (sms != "verified") {
           return navigateTo("/sms-verification");
-        } 
-        window.location.href = '/admin';
+        }else{
+          window.location.href = '/admin';
+        }
       }
       if (response.data.user.user_level === 7) {
         window.location.href = '/7';
+      }
+      if (response.data.user.user_level === 4) {
+        window.location.href = '/4';
       }
     } catch (error) {
       console.log(error);
