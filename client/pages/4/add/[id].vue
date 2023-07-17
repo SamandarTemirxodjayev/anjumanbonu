@@ -81,6 +81,21 @@
 							disabled="disabled"
 							class="bg-gray-300 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
 					</div>
+					<div class="mb-4">
+						<label
+							for="surname"
+							class="block mb-2 text-sm font-medium text-gray-700"
+							>Holat</label
+						>
+						<select
+              v-model="status"
+              id="options"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            >
+              <option value="0">0 (Tuxum)</option>
+              <option value="1">1 (Jo'Ja)</option>
+            </select>
+					</div>
 					<div>
 						<button
 							type="submit"
@@ -104,6 +119,7 @@ let unfertilized = ref();
 let date = ref("");
 let time = ref("");
 let success = ref(false);
+let status = ref("");
 
 const router = useRoute();
 
@@ -120,6 +136,7 @@ onMounted(async () => {
 		deliveryTime.value = resp.data.time;
 		defective.value = resp.data.defective;
 		unfertilized.value = resp.data.unfertilized;
+		status.value = resp.data.status;
 	} catch (error) {
 		console.log(error);
 	}
@@ -137,6 +154,7 @@ const handleSubmit = (e) => {
   const data = {
     defective: defective.value,
     unfertilized: unfertilized.value,
+		status: status.value,
   };
   $host.put("/incubator/eggs/" + router.params.id, data)
     .then((res) => {

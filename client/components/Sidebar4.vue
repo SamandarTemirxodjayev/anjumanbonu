@@ -20,7 +20,7 @@
             <li
               class="flex items-center hover:bg-purple-100 hover:text-purple-600 px-2">
               <img
-                src="/chicken.png"
+                src="/import.png"
                 alt="dashboard"
                 width="25"
                 class="pr-2" />
@@ -29,11 +29,20 @@
             <li
               class="flex items-center hover:bg-purple-100 hover:text-purple-600 px-2">
               <img
+                src="/eggs.png"
+                alt="dashboard"
+                width="25"
+                class="pr-2" />
+              <LazyNuxtLink to="/4/add" class="block py-2"> Qabullar (Tuxum) </LazyNuxtLink>
+            </li>
+            <li
+              class="flex items-center hover:bg-purple-100 hover:text-purple-600 px-2">
+              <img
                 src="/chicken.png"
                 alt="dashboard"
                 width="25"
                 class="pr-2" />
-              <LazyNuxtLink to="/4/add" class="block py-2"> Qabullar </LazyNuxtLink>
+              <LazyNuxtLink to="/4/chicken" class="block py-2"> Qabullar (Jo'Ja) </LazyNuxtLink>
             </li>
           </ul>
         </nav>

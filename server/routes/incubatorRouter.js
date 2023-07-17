@@ -8,4 +8,7 @@ router.get("/eggs", UserMiddleware, IncubatorController.getEggs);
 router.get("/eggs/:id", UserMiddleware, IncubatorController.getEggsById);
 router.put("/eggs/:id", UserMiddleware, IncubatorController.editEggsById);
 
+router.get("/chickens", UserMiddleware, IncubatorController.getChickens);
+router.put("/chickens/:id", UserMiddleware, IncubatorController.editChickenById);
+
 module.exports = router;

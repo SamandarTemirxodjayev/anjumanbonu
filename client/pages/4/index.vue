@@ -6,7 +6,15 @@
           <div class="square text-white border rounded-lg dark:bg-[#555]">
             <div class="h-full flex flex-col items-center justify-center">
               <div class="text-5xl font-bold">{{eggs.length}}</div>
-              <div class="mt-4 text-center">Qabul soni</div>
+              <div class="mt-4 text-center">Qabul soni ( Tuxum )</div>
+            </div>
+          </div>
+        </LazyNuxtLink>
+        <LazyNuxtLink to="/4/chicken" class="mr-2 mb-2">
+          <div class="square text-white border rounded-lg dark:bg-[#555]">
+            <div class="h-full flex flex-col items-center justify-center">
+              <div class="text-5xl font-bold">{{chicken.length}}</div>
+              <div class="mt-4 text-center">Qabul soni ( Jo'Ja )</div>
             </div>
           </div>
         </LazyNuxtLink>
@@ -50,6 +58,7 @@
 <script setup>
 let loading = ref(true);
 let eggs = reactive({});
+let chicken = reactive({});
 
 onMounted(async () => {
   try {
@@ -60,6 +69,8 @@ onMounted(async () => {
     }
     const resEggs = await $host.get("/incubator/eggs");
     eggs = resEggs.data;
+    const resChicken = await $host.get("/incubator/chickens");
+    chicken = resChicken.data;
   } catch (error) {
     console.log(error);
   }

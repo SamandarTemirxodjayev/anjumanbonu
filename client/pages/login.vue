@@ -45,7 +45,7 @@ const handleSubmit = async (e) => {
   loading.value = true;
   
   try {
-    const res = await axios.post("http://localhost:3021/api/login", {
+    const res = await axios.post("https://80.78.254.116/api/login", {
       login: username.value,
       password: password.value,
     });

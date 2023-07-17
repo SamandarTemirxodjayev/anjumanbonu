@@ -1,11 +1,21 @@
 const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const https = require("https");
+const fs = require("fs");
+
 const router = require("./routes/router.js");
 const AdminRouter = require("./routes/adminRouter.js");
 const IncubatorRouter = require("./routes/incubatorRouter.js");
-const mongoose = require("mongoose");
-const cors = require("cors");
 
 const app = express();
+const options = {
+  key:fs.readFileSync("./keys/key.pem"),
+  cert:fs.readFileSync("./keys/cert.pem")
+};
+
+const port = 443;
+
 app.use(cors());
 app.use(express.json());
 app.use("/api", router);
@@ -22,9 +32,12 @@ mongoose
     }
   )
   .then(() => {
-    console.log("Database connected");
+    console.log("Server is connecting on MongoDB");
     app.listen(3021, () => {
-      console.log("Example app listening on port 3021!");
+      console.log("Server is running on http://80.78.254.116:3021");
+    });
+    https.createServer(options, app).listen(port, () => {
+      console.log("Server is running on https://80.78.254.116");
     });
   })
   .catch((error) => {

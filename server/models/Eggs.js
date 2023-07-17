@@ -32,6 +32,10 @@ const eggsSchema = new mongoose.Schema({
   },
   unfertilized: {
     type: String
+  },
+  defectiveChichken: {
+    type: String,
+    default: "0"
   }
 });
 const Eggs = mongoose.model("eggs", eggsSchema);
