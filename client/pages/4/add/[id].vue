@@ -14,7 +14,7 @@
 						>
 						<input
 							id="name"
-							v-model="deliveryDate"
+							:value="`${deliveryDate.day}.${deliveryDate.month}.${deliveryDate.year}`"
 							type="text"
 							disabled="disabled"
 							class="bg-gray-300 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
@@ -112,7 +112,11 @@
 
 <script setup>
 let loading = ref(true);
-let deliveryDate = ref("");
+let deliveryDate = reactive({
+	day: "",
+  month: "",
+  year: "",
+});
 let deliveryTime = ref("");
 let defective = ref();
 let unfertilized = ref();
@@ -132,7 +136,8 @@ onMounted(async () => {
 			return;
 		}
 		const resp = await $host.get("/incubator/eggs/" + router.params.id);
-		deliveryDate.value = resp.data.date;
+		console.log(resp.data.date);
+		deliveryDate = resp.data.date;
 		deliveryTime.value = resp.data.time;
 		defective.value = resp.data.defective;
 		unfertilized.value = resp.data.unfertilized;

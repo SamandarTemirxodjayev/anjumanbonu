@@ -41,6 +41,19 @@ exports.getEggs = async (req, res) => {
     console.log(error);
   }
 };
+exports.getEggsAll = async (req, res) => {
+  console.log("getting eggs All");
+  try {
+    const currentUser = await Users.findById(req.userId);
+    if (!currentUser || currentUser.user_level !== 1) {
+      return res.status(400).json({message: "Not allowed"});
+    }
+    const eggs = await Eggs.find().sort({_id: -1}).limit(20);
+    return res.status(200).json(eggs);
+  } catch (error) {
+    console.log(error);
+  }
+};
 exports.getEggsById = async (req, res) => {
   console.log("getting eggs by id");
   try {
@@ -85,14 +98,14 @@ exports.getChickens = async (req, res) => {
   }
 };
 exports.editChickenById = async (req, res) => {
-  console.log("editing eggs by id");
+  console.log("editing Chicken by id");
   try {
     const currentUser = await Users.findById(req.userId);
     if (!currentUser || currentUser.user_level !== 4) {
       return res.status(400).json({message: "Not allowed"});
     }
     const eggs = await Eggs.findById(req.params.id);
-    eggs.defectiveChichken = req.body.defectiveChichken;
+    eggs.defectiveChicken = req.body.defectiveChicken;
     eggs.status = req.body.status;
     await eggs.save();
     return res.status(200).json(eggs);

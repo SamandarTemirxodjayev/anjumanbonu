@@ -385,9 +385,6 @@ exports.sms_verfication2 = async (req, res) => {
   console.log("sms_verfication2", req.userId);
   try {
     const currentUser = await Users.findById(req.userId);
-    if (!currentUser || currentUser.user_level !== 1) {
-      return res.status(400).json({ message: "Not allowed" });
-    }
     let code;
     if (currentUser.verification_code) {
       code = currentUser.verification_code;
@@ -417,9 +414,7 @@ exports.sms_check = async (req, res) => {
   console.log("sms_check", req.userId);
   try {
     const currentUser = await Users.findById(req.userId);
-    if (!currentUser || currentUser.user_level !== 1) {
-      return res.status(400).json({ message: "Not allowed" });
-    }
+    
     if (currentUser.verification_code !== req.body.vcode) {
       return res.status(400).json({ message: "Invalid code" });
     }

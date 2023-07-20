@@ -19,7 +19,15 @@ const eggsSchema = new mongoose.Schema({
     type: String
   },
   date: {
-    type: String
+    day: {
+      type: String
+    },
+    month: {
+      type: String
+    },
+    year: {
+      type: String
+    }
   },
   time: {
     type: String
@@ -33,11 +41,12 @@ const eggsSchema = new mongoose.Schema({
   unfertilized: {
     type: String
   },
-  defectiveChichken: {
+  defectiveChicken: {
     type: String,
     default: "0"
   }
 });
+
 const Eggs = mongoose.model("eggs", eggsSchema);
 
 module.exports = Eggs;

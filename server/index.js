@@ -34,10 +34,10 @@ mongoose
   .then(() => {
     console.log("Server is connecting on MongoDB");
     app.listen(3021, () => {
-      console.log("Server is running on http://80.78.254.116:3021");
+      console.log("Server is running on http://localhost:3021");
     });
     https.createServer(options, app).listen(port, () => {
-      console.log("Server is running on https://80.78.254.116");
+      console.log("Server is running on https://localhost");
     });
   })
   .catch((error) => {

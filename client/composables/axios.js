@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://80.78.254.116/api/";
+const API_URL = "https://localhost/api/";
 let accessToken = null;
 let headers = {
   "Content-Type": "application/json",

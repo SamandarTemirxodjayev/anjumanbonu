@@ -10,36 +10,36 @@ let loading = ref(true);
 let data = ref(null);
 
 function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 onMounted(async () => {
-  let token = localStorage.getItem('token');
+  let token = localStorage.getItem("token");
   if (!token) {
-    window.location.href = '/login';
+    window.location.href = "/login";
   } else {
     try {
       await sleep(500);
-      const response = await $host.post('/userInfo');
+      const response = await $host.post("/userInfo");
       data.value = response.data;
-      if (response.data.user.user_level === 1) {
-        let sms = localStorage.getItem('sms_verification');
-        if (sms != "verified") {
-          return navigateTo("/sms-verification");
-        }else{
-          window.location.href = '/admin';
+      let sms = localStorage.getItem("sms_verification");
+      if (sms != "verified") {
+        return navigateTo("/sms-verification");
+      } else {
+        if (response.data.user.user_level === 1) {
+          window.location.href = "/admin";
         }
-      }
-      if (response.data.user.user_level === 7) {
-        window.location.href = '/7';
-      }
-      if (response.data.user.user_level === 4) {
-        window.location.href = '/4';
+        if (response.data.user.user_level === 7) {
+          window.location.href = "/7";
+        }
+        if (response.data.user.user_level === 4) {
+          window.location.href = "/4";
+        }
       }
     } catch (error) {
       console.log(error);
     }
-    
+
     loading.value = false;
   }
 });

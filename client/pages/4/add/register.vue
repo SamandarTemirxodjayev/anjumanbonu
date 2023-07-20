@@ -36,7 +36,7 @@
           </div>
           <div class="mb-4">
             <label class="block mb-2 text-sm font-medium text-gray-700">Sana</label>
-            <input disabled="disabled" v-model="date" class="bg-gray-300 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
+            <input disabled="disabled" :value="`${date.day}.${date.month}.${date.year}`" class="bg-gray-300 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
           </div>
           <div class="mb-4">
             <label class="block mb-2 text-sm font-medium text-gray-700">Vaqt</label>
@@ -63,7 +63,11 @@ const companyName = ref("");
 const quantity = ref();
 const price = ref();
 const soliq = ref();
-const date = ref('');
+const date = reactive({
+  day: "",
+  month: "",
+  year: ""
+});
 const time = ref('');
 const success = ref(false);
 
@@ -99,7 +103,9 @@ onMounted(async () => {
 const updateTimeAndDate = () => {
   const now = new Date();
   time.value = now.toLocaleTimeString();
-  date.value = now.toLocaleDateString();
+  date.day = now.getDate().toString();
+  date.month = (now.getMonth() + 1).toString().padStart(2, '0'); 
+  date.year = now.getFullYear().toString(); 
 };
 const handleSubmit = async (e) => {
   e.preventDefault();
@@ -111,7 +117,7 @@ const handleSubmit = async (e) => {
       quantity: quantity.value,
       price: price.value,
       soliq: soliq.value,
-      date: date.value,
+      date: date,
       time: time.value,
       status: 0,
       defective: 0,

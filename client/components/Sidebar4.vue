@@ -44,6 +44,16 @@
                 class="pr-2" />
               <LazyNuxtLink to="/4/chicken" class="block py-2"> Qabullar (Jo'Ja) </LazyNuxtLink>
             </li>
+            <li
+              class="flex items-center hover:bg-purple-100 hover:text-purple-600 px-2">
+              <img src="/logout.png" alt="dashboard" width="25" class="pr-2" />
+              <LazyNuxtLink to="/logout" class="block py-2"> Chiqish </LazyNuxtLink>
+            </li>
+            <li
+              class="flex items-center hover:bg-purple-100 hover:text-purple-600 px-2">
+              <img src="/chat.png" alt="dashboard" width="25" class="pr-2" />
+              <LazyNuxtLink to="/chat" class="block py-2"> Chat </LazyNuxtLink>
+            </li>
           </ul>
         </nav>
       </div>

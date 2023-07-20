@@ -17,7 +17,7 @@
             >
             <input
               id="name"
-              v-model="deliveryDate"
+              :value="`${deliveryDate.day}.${deliveryDate.month}.${deliveryDate.year}`"
               type="text"
               disabled="disabled"
               class="bg-gray-300 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
@@ -45,7 +45,7 @@
             >
             <input
               id="name"
-              v-model="defectiveChichken"
+              v-model="defectiveChicken"
               type="text"
               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             />
@@ -138,9 +138,13 @@
 
 <script setup>
 let loading = ref(true);
-let deliveryDate = ref("");
+let deliveryDate = reactive({
+	day: "",
+  month: "",
+  year: "",
+});
 let deliveryTime = ref("");
-let defectiveChichken = ref();
+let defectiveChicken = ref("");
 let date = ref("");
 let time = ref("");
 let success = ref(false);
@@ -159,9 +163,9 @@ onMounted(async () => {
       return;
     }
     const resp = await $host.get("/incubator/eggs/" + router.params.id);
-    deliveryDate.value = resp.data.date;
+    deliveryDate = resp.data.date;
     deliveryTime.value = resp.data.time;
-    defectiveChichken.value = resp.data.defectiveChichken;
+    defectiveChicken.value = resp.data.defectiveChicken;
     status.value = resp.data.status;
     defective.value = resp.data.defective;
     unfertilized.value = resp.data.unfertilized;
@@ -180,7 +184,7 @@ const updateTimeAndDate = () => {
 const handleSubmit = (e) => {
   e.preventDefault();
   const data = {
-    defectiveChichken: defectiveChichken.value,
+    defectiveChicken: defectiveChicken.value,
     status: status.value,
   };
   $host
